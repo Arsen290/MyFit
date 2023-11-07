@@ -3,6 +3,7 @@ package cz.project.myfit.controllers;
 import cz.project.myfit.dao.UserDAO;
 import cz.project.myfit.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +28,10 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers(){
-        return userDAO.getUsers();
+    public String getUsers(Model model) {
+        List<User> users = userDAO.getUsers();
+        model.addAttribute("users", users);
+        return "users/show";
     }
 
     @PostMapping
