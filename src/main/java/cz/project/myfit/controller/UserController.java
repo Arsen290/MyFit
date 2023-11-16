@@ -1,5 +1,6 @@
 package cz.project.myfit.controller;
 
+import cz.project.myfit.DTO.UserDTO;
 import cz.project.myfit.model.User;
 import cz.project.myfit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    @GetMapping("/users")
     public String getUsers(Model model) {
-        List<User> users = userService.getAllUsers();
+        List<UserDTO> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "users/index";
     }
@@ -41,7 +42,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/post")
-    public void addUser(@RequestBody User user) {
-        userService.save(user);
+    public void addUser(@RequestBody UserDTO userDTO) {
+        userService.save(userDTO);
     }
 }

@@ -1,5 +1,6 @@
 package cz.project.myfit.model;
 
+import cz.project.myfit.DTO.UserDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -66,5 +67,9 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public UserDTO toDTO() {
+        return new UserDTO(this.id, this.name, this.email);
     }
 }
