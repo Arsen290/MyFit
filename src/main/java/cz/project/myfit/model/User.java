@@ -1,5 +1,6 @@
 package cz.project.myfit.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,9 +28,11 @@ public class User {
     private Long id;
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @Column(unique = true)
     private String name;
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
+    @Column(unique = true)
     private String email;
 
     public User(Long id, String name, String email) {

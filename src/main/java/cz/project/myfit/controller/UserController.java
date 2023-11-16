@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("")
 public class UserController {
     private final UserService userService;
 

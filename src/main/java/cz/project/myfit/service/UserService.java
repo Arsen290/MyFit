@@ -3,6 +3,7 @@ package cz.project.myfit.service;
 import cz.project.myfit.model.User;
 import cz.project.myfit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,11 @@ public class UserService {
         return (User) userRepository.findUserByName(name).orElse(null);
     }
     public void save(User user) {
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            // Handle the exception (e.g., log an error or throw a custom exception)
+            throw new IllegalStateException("Duplicate name or email");
+        }
     }
 }
