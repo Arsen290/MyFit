@@ -21,8 +21,11 @@ public class UserService {
 
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
+        // Convert the list of User objects to a Stream
         return users.stream()
+                // For each User object, apply the toDTO method to convert it to a UserDTO
                 .map(User::toDTO)
+                // Collect the resulting UserDTO objects into a List
                 .collect(Collectors.toList());
     }
 
