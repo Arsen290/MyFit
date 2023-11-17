@@ -4,6 +4,9 @@ public class UserDTO {
 
     private Long id;
 
+    private String name;
+    private String email;
+
     public Long getId() {
         return id;
     }
@@ -26,12 +29,6 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    private String name;
-    private String email;
-
-    public UserDTO() {
     }
 
     public UserDTO(Long id, String name, String email) {

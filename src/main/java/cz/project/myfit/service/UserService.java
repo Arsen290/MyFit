@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public User getUserByName(String name){
-        return (User) userRepository.findUserByName(name).orElse(null);
+        return userRepository.findUserByName(name).orElse(null);
     }
     public void save(UserDTO userDTO) {
         try {
@@ -48,5 +48,9 @@ public class UserService {
             // Handle the exception (e.g., log an error or throw a custom exception)
             throw new IllegalStateException("Duplicate name or email");
         }
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }

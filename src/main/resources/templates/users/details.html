@@ -6,7 +6,15 @@
 </head>
 <body>
 <h1>User Details</h1>
-<p th:text="${user.getId() + '.' + user.getName()}"></p>
-<p th:text="${user.getEmail()}"></p>
+<p th:if="${user != null}" th:text="${user.id + '.' + user.name}"></p>
+<p th:if="${user != null}" th:text="${user.email}"></p>
+
+<!--<form method="DELETE" th:if="${user != null}" th:method="DELETE" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">-->
+<!--    <input type="submit" value="Delete"/>-->
+<!--</form>-->
+<form th:method="sure" th:if="${user != null}" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
+    <input type="submit" value="Delete"/>
+</form>
+<!--@{ / {name} (name=${user.getName()}) }-->
 </body>
 </html>

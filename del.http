@@ -1,0 +1,7 @@
+DELETE http://localhost:8080/afd
+Content-Type: application/json
+
+{
+  "name": "afd",
+  "email": "adf@exaple.com"
+}
