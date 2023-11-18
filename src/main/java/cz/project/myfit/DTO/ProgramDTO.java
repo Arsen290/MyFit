@@ -1,11 +1,16 @@
 package cz.project.myfit.DTO;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class ProgramDTO{
 
     private Long id;
+    @NotEmpty(message = "Program name should not be empty")
     private String name;
+    @NotNull(message = "User ID should not be null")
     private Long userId;
     private LocalDate date;
 

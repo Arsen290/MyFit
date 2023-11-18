@@ -1,5 +1,6 @@
 package cz.project.myfit.controller;
 
+import cz.project.myfit.DTO.ProgramDTO;
 import cz.project.myfit.DTO.UserDTO;
 import cz.project.myfit.model.Program;
 import cz.project.myfit.model.User;
@@ -46,6 +47,7 @@ public class UserController {
         List<Program> programs = programService.getProgramsByUser(user);
         model.addAttribute("user", user);
         model.addAttribute("programs", programs);
+        model.addAttribute("newProgram", new ProgramDTO()); // Add an empty ProgramDTO for the form
         return "users/details";
     }
     //Change implementation with register and login form with token
