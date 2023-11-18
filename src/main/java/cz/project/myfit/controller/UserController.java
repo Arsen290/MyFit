@@ -44,11 +44,20 @@ public class UserController {
     @GetMapping("/{name}")
     public String getUserByName(@PathVariable("name") String name, Model model) {
         User user = userService.getUserByName(name);
-        List<Program> programs = programService.getProgramsByUser(user);
-        model.addAttribute("user", user);
-        model.addAttribute("programs", programs);
-        model.addAttribute("newProgram", new ProgramDTO()); // Add an empty ProgramDTO for the form
-        return "users/details";
+
+        if (user != null) {
+            List<Program> programs = programService.getProgramsByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("programs", programs);
+            ProgramDTO newProgram = new ProgramDTO();
+            newProgram.setUserId(user.getId());  // Устанавливаем userId в newProgram
+            model.addAttribute("newProgram", newProgram);
+
+            return "users/details";
+        } else {
+
+            return "redirect:/users";
+        }
     }
     //Change implementation with register and login form with token
     @ResponseBody

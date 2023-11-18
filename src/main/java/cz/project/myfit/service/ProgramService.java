@@ -26,13 +26,13 @@ public class ProgramService {
         return programRepository.findProgramsByUser(user);
     }
 
-    public Program addProgramToUser(String userName, ProgramDTO programDTO) {
-        User user = userRepository.findUserByName(userName).orElse(null);
+    public Program addProgramToUser(Long id, ProgramDTO programDTO) {
+        User user = userRepository.findUserById(id).orElse(null);
         if (user != null && programDTO != null && programDTO.getName() != null) {
             Program program = new Program(programDTO.getName(), user, LocalDate.now());
             programRepository.save(program);
             return program;
         }
-        return null;
+        else {return null;}
     }
 }

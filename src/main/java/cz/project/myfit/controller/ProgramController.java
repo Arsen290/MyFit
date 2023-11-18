@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,16 +31,17 @@ public class ProgramController {
         this.programService = programService;
     }
 
-    @PostMapping("/{userName}/add-program")
+    @PostMapping("/{id}/add-program")
     public String addProgramToUser(
-            @PathVariable String userName,
-            @Valid ProgramDTO programDTO,
+            @PathVariable Long id,
+            @Valid @ModelAttribute("newProgram") ProgramDTO programDTO,
             BindingResult result
     ) {
         if (result.hasErrors()) {
-            return "redirect:/{userName}";
+            return "redirect:/" + userService.getUserById(id).getName();
         }
-        programService.addProgramToUser(userName, programDTO);
-        return "redirect:/{userName}";
+        programService.addProgramToUser(id, programDTO);
+        return "redirect:/" + userService.getUserById(id).getName();
     }
+
 }

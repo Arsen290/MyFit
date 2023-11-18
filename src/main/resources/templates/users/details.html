@@ -12,14 +12,15 @@
 <div th:if="${user != null}" th:each="program : ${programs}">
     <p th:text="${program.getId() + '.' + program.getName() + ' - ' + program.getDate() }">program</p>
 </div>
-<br>
+
 <!-- Form to create a program -->
-<form th:action="@{'/' + ${user.getName()} + '/add-program'}" method="POST" th:object="${newProgram}">
-    <label for="newProgramName">Program Name:</label>
-    <input type="text" id="newProgramName" name="name" th:field="*{name}" required/>
+<form method="POST" th:action="@{'/' + ${newProgram.getUserId()} + '/add-program'}" th:object="${newProgram}">
+    <input type="hidden" th:field="*{userId}" th:value="${newProgram.getUserId()}"/>
+    <label for="programName">Program Name:</label>
+    <input type="text" id="programName" name="name" th:field="*{name}" required/>
     <button type="submit">Add Program</button>
 </form>
-<br>
+
 <!-- Form to delete a user -->
 <form th:method="Delete" th:if="${user != null}" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
     <input type="submit" value="Delete"/>
