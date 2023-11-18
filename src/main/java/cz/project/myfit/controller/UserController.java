@@ -1,7 +1,9 @@
 package cz.project.myfit.controller;
 
 import cz.project.myfit.DTO.UserDTO;
+import cz.project.myfit.model.Program;
 import cz.project.myfit.model.User;
+import cz.project.myfit.service.ProgramService;
 import cz.project.myfit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +24,12 @@ import java.util.List;
 @RequestMapping("")
 public class UserController {
     private final UserService userService;
+    private final ProgramService programService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ProgramService programService) {
         this.userService = userService;
+        this.programService = programService;
     }
 
     //All users list
@@ -39,7 +43,9 @@ public class UserController {
     @GetMapping("/{name}")
     public String getUserByName(@PathVariable("name") String name, Model model) {
         User user = userService.getUserByName(name);
+        List<Program> programs = programService.getProgramsByUser(user);
         model.addAttribute("user", user);
+        model.addAttribute("programs", programs);
         return "users/details";
     }
     //Change implementation with register and login form with token

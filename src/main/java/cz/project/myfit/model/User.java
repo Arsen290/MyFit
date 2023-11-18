@@ -1,16 +1,20 @@
 package cz.project.myfit.model;
 
 import cz.project.myfit.DTO.UserDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 
 @Entity
@@ -35,6 +39,8 @@ public class User {
     @Email(message = "Email should be valid")
     @Column(unique = true)
     private String email;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Program> programs;
 
     public User(Long id, String name, String email) {
         this.id = id;

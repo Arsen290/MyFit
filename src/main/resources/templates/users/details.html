@@ -8,7 +8,10 @@
 <h1>User Details</h1>
 <p th:if="${user != null}" th:text="${user.id + '.' + user.name}"></p>
 <p th:if="${user != null}" th:text="${user.email}"></p>
-
+<div th:if="${user != null}" th:each="program : ${programs}">
+    <p th:text="${program.getId() + '.' + program.getName() + ' - ' + program.getDate() }">program</p>
+</div>
+<br>
 <form th:method="Delete" th:if="${user != null}" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
     <input type="submit" value="Delete"/>
 </form>
