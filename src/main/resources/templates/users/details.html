@@ -10,7 +10,9 @@
 <p th:if="${user != null}" th:text="${user.getEmail()}"></p>
 <!-- List of programs -->
 <div th:if="${user != null}" th:each="program : ${programs}">
-    <p th:text="${program.getId() + '.' + program.getName() + ' - ' + program.getDate() }">program</p>
+    <a th:href="@{${user.getName()} +'/'+ ${program.getName()}}">
+        <p th:text="${program.getId() + '.' + program.getName() + ' - ' + program.getDate() }">program</p>
+    </a>
     <!-- Form to delete a program -->
     <form th:method="DELETE" th:action="@{'/' + ${user.getName()} + '/delete-program/' + ${program.getId()}}">
         <input type="submit" value="Delete Program"/>

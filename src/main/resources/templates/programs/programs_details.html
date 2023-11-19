@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Program with Exercises</title>
+</head>
+<body>
+<h2 th:text="${program.getName()}"></h2>
+
+<ul>
+    <li th:each="exercise : ${exercises}" th:text="${exercise.name + ' - ' + exercise.sets + ' sets, ' + exercise.repetitions + ' repetitions'}"></li>
+</ul>
+</body>
+</html>
