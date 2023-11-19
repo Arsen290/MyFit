@@ -11,6 +11,10 @@
 <!-- List of programs -->
 <div th:if="${user != null}" th:each="program : ${programs}">
     <p th:text="${program.getId() + '.' + program.getName() + ' - ' + program.getDate() }">program</p>
+    <!-- Form to delete a program -->
+    <form th:method="DELETE" th:action="@{'/' + ${user.getName()} + '/delete-program/' + ${program.getId()}}">
+        <input type="submit" value="Delete Program"/>
+    </form>
 </div>
 
 <!-- Form to create a program -->
@@ -23,7 +27,7 @@
 
 <!-- Form to delete a user -->
 <form th:method="Delete" th:if="${user != null}" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
-    <input type="submit" value="Delete"/>
+    <input type="submit" value="Delete User"/>
 </form>
 </body>
 </html>

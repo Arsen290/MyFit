@@ -26,6 +26,7 @@ public class ProgramService {
         return programRepository.findProgramsByUser(user);
     }
 
+    // Add a program to a user
     public Program addProgramToUser(Long id, ProgramDTO programDTO) {
         User user = userRepository.findUserById(id).orElse(null);
         if (user != null && programDTO != null && programDTO.getName() != null) {
@@ -34,5 +35,9 @@ public class ProgramService {
             return program;
         }
         else {return null;}
+    }
+    // Delete a program
+    public void deleteProgram(Long programId) {
+        programRepository.deleteById(programId);
     }
 }
