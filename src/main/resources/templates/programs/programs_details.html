@@ -18,8 +18,8 @@
                 <div>
                     <span th:text="${exercise.name}"></span>
                     <span th:text="${'- sets: ' + exercise.sets  + ', repetitions: ' +exercise.repetitions +  ', weight: ' + exercise.weight}"></span>
-                    <form th:action="@{'/' + ${userName} + '/' + ${programName} + '/delete-exercise/' + ${exercise.id}}" method="post">
-                        <button type="submit">Delete exercise</button>
+                    <form th:method="DELETE" th:action="@{'/' + ${userName} + '/' + ${programName} + '/delete-exercise/' + ${exercise.id}}" >
+                        <button type="submit">Delete Exercise</button>
                     </form>
                 </div>
             </th:block>
