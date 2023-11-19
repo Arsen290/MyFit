@@ -54,4 +54,13 @@ public class ExerciseController {
         exerciseService.addExerciseToProgram(userName, programName, exerciseDTO);
         return "redirect:/{userName}/{programName}";
     }
+    @PostMapping("/{userName}/{programName}/delete-exercise/{exerciseId}")
+    public String deleteExercise(
+            @PathVariable String userName,
+            @PathVariable String programName,
+            @PathVariable Long exerciseId
+    ) {
+        exerciseService.deleteExercise(exerciseId);
+        return "redirect:/{userName}/{programName}";
+    }
 }

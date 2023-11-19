@@ -31,9 +31,6 @@ public class ExerciseService {
         return exerciseRepository.findById(id).orElse(null);
     }
 
-    public Exercise saveExercise(Exercise exercise) {
-        return exerciseRepository.save(exercise);
-    }
 
     public void deleteExercise(Long id) {
         exerciseRepository.deleteById(id);

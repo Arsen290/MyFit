@@ -5,7 +5,7 @@
     <title>User Details</title>
 </head>
 <body>
-<h1>User Details</h1>
+<h1>User Details:</h1>
 <p th:if="${user != null}" th:text="${user.getId() + '.' + user.getName()}"></p>
 <p th:if="${user != null}" th:text="${user.getEmail()}"></p>
 <!-- List of programs -->
