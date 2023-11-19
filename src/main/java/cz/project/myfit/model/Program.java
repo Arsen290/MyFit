@@ -1,16 +1,20 @@
 package cz.project.myfit.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "programs")
@@ -28,6 +32,9 @@ public class Program {
     private User user;
 
     private LocalDate date;
+
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Exercise> exercises;
     public Program() {
     }
 
@@ -35,6 +42,7 @@ public class Program {
         this.name = name;
         this.user = user;
         this.date = date;
+        this.exercises = new ArrayList<>();
     }
     public Long getId() {
         return id;
@@ -66,6 +74,18 @@ public class Program {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+    public void addExercise(Exercise exercise) {
+        exercises.add(exercise);
+        exercise.setProgram(this);
+    }
+
+    public void removeExercise(Exercise exercise) {
+        exercises.remove(exercise);
+        exercise.setProgram(null);
     }
 
 }
