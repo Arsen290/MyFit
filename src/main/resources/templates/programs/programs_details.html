@@ -5,11 +5,24 @@
     <title>Program with Exercises</title>
 </head>
 <body>
+<h1>Program detail:</h1>
 <h2 th:text="${program.getName()}"></h2>
 
-<ul>
-    <li th:each="exercise : ${exercises}" th:text="${exercise.name + ' - ' + exercise.sets + ' sets, ' + exercise.repetitions + ' repetitions'}"></li>
-</ul>
+<!-- Show all exercises of the program -->
+<div th:each="dayOfWeek : ${T(java.time.DayOfWeek).values()}">
+    <h6 th:text="${dayOfWeek}"></h6>
+    <ul>
+        <!-- Filter exercise by the day of the week -->
+        <th:block th:each="exercise : ${exercises}">
+            <th:block th:if="${dayOfWeek eq exercise.dayOfWeek}">
+                <div>
+                    <span th:text="${exercise.name}"></span>
+                    <span th:text="${'- sets: ' + exercise.sets  + ', repetitions: ' +exercise.repetitions +  ', weight: ' + exercise.weight}"></span>
+                </div>
+            </th:block>
+        </th:block>
+    </ul>
+</div>
 <!-- Button to show the form -->
 <button onclick="showForm()">Add Exercise</button>
 
@@ -21,6 +34,18 @@
     <input type="number" id="sets" name="sets" th:field="*{sets}" required/>
     <label for="repetitions">Repetitions:</label>
     <input type="number" id="repetitions" name="repetitions" th:field="*{repetitions}" required/>
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" name="weight" th:field="*{weight}" required/>
+    <label for="dayOfWeek">Day of Week:</label>
+    <select id="dayOfWeek" name="dayOfWeek" th:field="*{dayOfWeek}" required>
+        <option value="MONDAY">Monday</option>
+        <option value="TUESDAY">Tuesday</option>
+        <option value="WEDNESDAY">Wednesday</option>
+        <option value="THURSDAY">Thursday</option>
+        <option value="FRIDAY">Friday</option>
+        <option value="SATURDAY">Saturday</option>
+        <option value="SUNDAY">Sunday</option>
+    </select>
     <button type="submit">Add Exercise</button>
 </form>
 

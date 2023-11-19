@@ -46,12 +46,17 @@ public class ExerciseService {
         Program program = programRepository.findByUser_NameAndName(userName, programName);
 
         if (program != null) {
-            Exercise exercise = new Exercise(exerciseDTO.getName(), exerciseDTO.getSets(), exerciseDTO.getRepetitions(), program);
+            Exercise exercise = new Exercise(
+                    exerciseDTO.getName(),
+                    exerciseDTO.getSets(),
+                    exerciseDTO.getRepetitions(),
+                    exerciseDTO.getWeight(),
+                    exerciseDTO.getDayOfWeek(),
+                    program
+            );
             program.addExercise(exercise);
             programRepository.save(program);
-        }
-        //change to custom exception
-        else {
+        } else {
             throw new IllegalStateException("Program not found");
         }
     }

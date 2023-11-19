@@ -1,6 +1,8 @@
 package cz.project.myfit.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,6 +11,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+
+import java.time.DayOfWeek;
 
 @Entity
 @Table(name = "exercises")
@@ -25,6 +29,12 @@ public class Exercise {
 
     private int repetitions;
 
+
+    private int weight;
+
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek dayOfWeek;
+
     @ManyToOne
     @JoinColumn(name = "program_id", nullable = false)
     private Program program;
@@ -32,10 +42,12 @@ public class Exercise {
     public Exercise() {
     }
 
-    public Exercise(String name, int sets, int repetitions, Program program){
+    public Exercise(String name, int sets, int repetitions, int weight, DayOfWeek dayOfWeek, Program program) {
         this.name = name;
         this.sets = sets;
         this.repetitions = repetitions;
+        this.weight = weight;
+        this.dayOfWeek = dayOfWeek;
         this.program = program;
     }
 
@@ -78,4 +90,21 @@ public class Exercise {
     public void setProgram(Program program) {
         this.program = program;
     }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
 }
