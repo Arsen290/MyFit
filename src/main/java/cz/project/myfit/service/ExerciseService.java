@@ -1,5 +1,6 @@
 package cz.project.myfit.service;
 
+import cz.project.myfit.DTO.ExerciseDTO;
 import cz.project.myfit.model.Exercise;
 import cz.project.myfit.model.Program;
 import cz.project.myfit.repository.ExerciseRepository;
@@ -39,5 +40,19 @@ public class ExerciseService {
     }
     public Program getProgramByNameAndUser(String userName, String programName) {
         return programRepository.findByUser_NameAndName(userName, programName);
+    }
+
+    public void addExerciseToProgram(String userName, String programName, ExerciseDTO exerciseDTO) {
+        Program program = programRepository.findByUser_NameAndName(userName, programName);
+
+        if (program != null) {
+            Exercise exercise = new Exercise(exerciseDTO.getName(), exerciseDTO.getSets(), exerciseDTO.getRepetitions(), program);
+            program.addExercise(exercise);
+            programRepository.save(program);
+        }
+        //change to custom exception
+        else {
+            throw new IllegalStateException("Program not found");
+        }
     }
 }

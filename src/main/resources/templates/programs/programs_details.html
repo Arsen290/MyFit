@@ -10,5 +10,29 @@
 <ul>
     <li th:each="exercise : ${exercises}" th:text="${exercise.name + ' - ' + exercise.sets + ' sets, ' + exercise.repetitions + ' repetitions'}"></li>
 </ul>
+<!-- Button to show the form -->
+<button onclick="showForm()">Add Exercise</button>
+
+<!-- Form to add exercise -->
+<form id="exerciseForm" style="display: none;" th:action="@{'/' + ${userName} + '/' + ${programName} + '/add-exercise'}" method="post" th:object="${newExercise}">
+    <label for="exerciseName">Exercise Name:</label>
+    <input type="text" id="exerciseName" name="name" th:field="*{name}" required/>
+    <label for="sets">Sets:</label>
+    <input type="number" id="sets" name="sets" th:field="*{sets}" required/>
+    <label for="repetitions">Repetitions:</label>
+    <input type="number" id="repetitions" name="repetitions" th:field="*{repetitions}" required/>
+    <button type="submit">Add Exercise</button>
+</form>
+
+<script th:inline="javascript">
+    // JavaScript function to show the form
+    function showForm() {
+        var form = document.getElementById('exerciseForm');
+        form.style.display = 'block';
+    }
+
+    var userName = /*[[${userName}]]*/ '';
+    var programName = /*[[${programName}]]*/ '';
+</script>
 </body>
 </html>
