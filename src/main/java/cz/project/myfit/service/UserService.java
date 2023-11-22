@@ -42,7 +42,7 @@ public class UserService {
     }
     public void save(UserDTO userDTO) {
         try {
-            User user = new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
+            User user = new User(userDTO.getId(), userDTO.getName(),userDTO.getPassword(), userDTO.getEmail(), userDTO.getRoles());
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             // Handle the exception (e.g., log an error or throw a custom exception)
