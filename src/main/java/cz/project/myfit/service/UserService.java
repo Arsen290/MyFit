@@ -2,21 +2,25 @@ package cz.project.myfit.service;
 
 import cz.project.myfit.DTO.UserDTO;
 import cz.project.myfit.model.User;
+import cz.project.myfit.repository.RoleRepository;
 import cz.project.myfit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final RoleService roleService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleService roleService) {
         this.userRepository = userRepository;
+        this.roleService = roleService;
     }
 
     public List<UserDTO> getAllUsers() {
