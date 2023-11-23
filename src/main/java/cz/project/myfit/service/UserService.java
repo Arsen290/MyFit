@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +25,14 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final BCryptPasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleService roleService) {
+    public UserService(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -52,9 +56,10 @@ public class UserService implements UserDetailsService {
     public User getUserByName(String name){
         return userRepository.findUserByName(name).orElse(null);
     }
+
     public void save(UserDTO userDTO) {
         try {
-            User user = new User(userDTO.getId(), userDTO.getName(),userDTO.getPassword(), userDTO.getEmail(), userDTO.getRoles());
+            User user = new User(userDTO.getId(), userDTO.getName(),passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             // Handle the exception (e.g., log an error or throw a custom exception)

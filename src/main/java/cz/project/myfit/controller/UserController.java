@@ -34,7 +34,7 @@ public class UserController {
     }
 
     //All users list
-    @GetMapping("/users")
+    @GetMapping("/admin")
     public String getUsers(Model model) {
         List<UserDTO> users = userService.getAllUsers();
         model.addAttribute("users", users);
