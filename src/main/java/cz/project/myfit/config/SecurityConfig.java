@@ -23,6 +23,7 @@ public class SecurityConfig {
     private final UserService userService;
 
     @Bean
+    // SecurityFilterChain is responsible for all the security filters that are defined for a particular filter chain.
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
@@ -33,7 +34,7 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("")// /login?
+                        .loginPage("/login")// /login?
                         .permitAll()
                 )
                 .logout((logout) -> logout.permitAll())
@@ -43,10 +44,12 @@ public class SecurityConfig {
         return http.build();
     }
     @Bean
+    // BCryptPasswordEncoder is a PasswordEncoder implementation that uses the BCrypt strong hashing function.
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Bean
+    // DaoAuthenticationProvider is an AuthenticationProvider implementation that retrieves user details from a UserDetailsService.
     public DaoAuthenticationProvider authenticationProvider(BCryptPasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -55,6 +58,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    // AuthenticationManager is the Spring Security interface responsible for authenticating a user.
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
     }
