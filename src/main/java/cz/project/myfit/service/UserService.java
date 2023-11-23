@@ -7,6 +7,7 @@ import cz.project.myfit.model.User;
 import cz.project.myfit.repository.RoleRepository;
 import cz.project.myfit.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,18 +23,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+
 public class UserService implements UserDetailsService {
+
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final BCryptPasswordEncoder passwordEncoder;
-
-
-    @Autowired
-    public UserService(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -59,6 +54,7 @@ public class UserService implements UserDetailsService {
 
     public void save(UserDTO userDTO) {
         try {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             User user = new User(userDTO.getId(), userDTO.getName(),passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
@@ -95,8 +91,12 @@ public class UserService implements UserDetailsService {
         // Set the user's roles to a Set containing only the 'ROLE_USER' role
         userDTO.setRoles(Set.of(userRole));
 
-        // Create a new User object from the UserDTO
-        User user = new User(userDTO.getId(), userDTO.getName(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getRoles());
+        // Create a new BCryptPasswordEncoder
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+            // Create a new User object from the UserDTO
+        User user = new User(userDTO.getId(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
 
         // Save the user to the userRepository
         userRepository.save(user);}
