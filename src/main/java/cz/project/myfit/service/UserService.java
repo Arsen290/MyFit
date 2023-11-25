@@ -4,11 +4,9 @@ import cz.project.myfit.DTO.UserDTO;
 import cz.project.myfit.enums.UserRole;
 import cz.project.myfit.model.Role;
 import cz.project.myfit.model.User;
-import cz.project.myfit.repository.RoleRepository;
 import cz.project.myfit.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -83,26 +81,57 @@ public class UserService implements UserDetailsService {
                         .collect(Collectors.toList()));
     }
 
-    public void createNewUser(UserDTO userDTO) {
+//    public void createNewUser(UserDTO userDTO) {
+//        try {
+//
+//        Role userRole = roleService.findRoleByName(UserRole.USER.toString());
+//
+//        // Set the user's roles to a Set containing only the 'ROLE_USER' role
+//        userDTO.setRoles(Set.of(userRole));
+//
+//        // Create a new BCryptPasswordEncoder
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//
+//            // Create a new User object from the UserDTO
+//        User user = new User(userDTO.getId(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
+//
+//        // Save the user to the userRepository
+//        userRepository.save(user);}
+//        catch (DataIntegrityViolationException e) {
+//            // Handle the exception (e.g., log an error or throw a custom exception)
+//            throw new IllegalStateException("Duplicate name or email");
+//        }
+//    }
+
+
+    // Creating a new admin user
+    public void createAdminUser(String name, String email, String password, String roleName) {
         try {
-        // Find the 'ROLE_USER' role using the roleService
-        Role userRole = roleService.findRoleByName(UserRole.USER);
+            // Find the role using the roleService
 
-        // Set the user's roles to a Set containing only the 'ROLE_USER' role
-        userDTO.setRoles(Set.of(userRole));
+            //UserRole userRole = UserRole.valueOf(roleName.toUpperCase()); // Преобразование строки в Enum в верхний регистр
+            Role adminRole = roleService.findRoleByName(roleName);
 
-        // Create a new BCryptPasswordEncoder
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (adminRole == null) {
+                // Зарегистрировать ошибку или сгенерировать исключение, указывающее, что роль не была найдена
+                throw new IllegalStateException("Роль администратора не найдена");
+            }
+            // Create a new BCryptPasswordEncoder
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+            // Create a set to store user roles
+            Set<Role> roles = new HashSet<>();
+            roles.add(adminRole);
 
             // Create a new User object from the UserDTO
-        User user = new User(userDTO.getId(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
+            User userAdmin = new User(null, name, passwordEncoder.encode(password), email, roles);
 
-        // Save the user to the userRepository
-        userRepository.save(user);}
-        catch (DataIntegrityViolationException e) {
+            // Save the user to the userRepository
+            userRepository.save(userAdmin);
+        } catch (DataIntegrityViolationException e) {
             // Handle the exception (e.g., log an error or throw a custom exception)
             throw new IllegalStateException("Duplicate name or email");
         }
     }
+
 }

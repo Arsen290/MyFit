@@ -1,7 +1,7 @@
-POST http://localhost:8080/post
+POST http://localhost:8080/auth
 Content-Type: application/json
 
 {
-  "name": "kolya",
-  "email": "kolya@ukr.com"
+"username": "AdminUser",
+"password": "adminPassword"
 }
