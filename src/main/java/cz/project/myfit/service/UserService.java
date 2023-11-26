@@ -123,13 +123,11 @@ public class UserService implements UserDetailsService {
     public void createAdminUser(String name, String email, String password, String roleName) {
         try {
             // Find the role using the roleService
-
-            //UserRole userRole = UserRole.valueOf(roleName.toUpperCase()); // Преобразование строки в Enum в верхний регистр
             Role adminRole = roleService.findRoleByName(roleName);
 
             if (adminRole == null) {
-                // Зарегистрировать ошибку или сгенерировать исключение, указывающее, что роль не была найдена
-                throw new IllegalStateException("Роль администратора не найдена");
+                // Handle the exception (e.g., log an error or throw a custom exception)
+                throw new IllegalStateException("Role not found");
             }
             // Create a new BCryptPasswordEncoder
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
