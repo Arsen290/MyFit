@@ -20,10 +20,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserDetailsService.class);
 
     private final UserRepository userRepository;
     private final RoleService roleService;
@@ -70,8 +73,20 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        log.info("Attempting to load user by username: " + username);
+        User user = userRepository.findUserByName(username)
+                .orElseThrow(() -> {
+                    log.error("User not found for username: " + username);
+                    return new UsernameNotFoundException("User not found");
+                });
 
+        log.info("User found: " + user.getEmail());
+
+        List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName().toString()))
+                .collect(Collectors.toList());
+
+        log.info("User roles: " + authorities);
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
@@ -81,27 +96,27 @@ public class UserService implements UserDetailsService {
                         .collect(Collectors.toList()));
     }
 
-//    public void createNewUser(UserDTO userDTO) {
-//        try {
-//
-//        Role userRole = roleService.findRoleByName(UserRole.USER.toString());
-//
-//        // Set the user's roles to a Set containing only the 'ROLE_USER' role
-//        userDTO.setRoles(Set.of(userRole));
-//
-//        // Create a new BCryptPasswordEncoder
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//
-//            // Create a new User object from the UserDTO
-//        User user = new User(userDTO.getId(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
-//
-//        // Save the user to the userRepository
-//        userRepository.save(user);}
-//        catch (DataIntegrityViolationException e) {
-//            // Handle the exception (e.g., log an error or throw a custom exception)
-//            throw new IllegalStateException("Duplicate name or email");
-//        }
-//    }
+    public void createNewUser(UserDTO userDTO) {
+        try {
+
+        Role userRole = roleService.findRoleByName(UserRole.USER.toString());
+
+        // Set the user's roles to a Set containing only the 'ROLE_USER' role
+        userDTO.setRoles(Set.of(userRole));
+
+        // Create a new BCryptPasswordEncoder
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+            // Create a new User object from the UserDTO
+        User user = new User(userDTO.getId(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
+
+        // Save the user to the userRepository
+        userRepository.save(user);}
+        catch (DataIntegrityViolationException e) {
+            // Handle the exception (e.g., log an error or throw a custom exception)
+            throw new IllegalStateException("Duplicate name or email");
+        }
+    }
 
 
     // Creating a new admin user
@@ -133,5 +148,13 @@ public class UserService implements UserDetailsService {
             throw new IllegalStateException("Duplicate name or email");
         }
     }
+
+//    public String getHashedPassword(String username) {
+//        Optional<User> getUserHashedPassword = userRepository.findUserByName(username);
+//        User user = getUserHashedPassword.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//        // Ваша логика для получения хэшированного пароля из базы данных по имени пользователя
+//        // Например, используя userRepository или другие методы доступа к данным
+//        return user.getPassword();
+//    }
 
 }

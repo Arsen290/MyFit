@@ -16,12 +16,8 @@ public class RoleService {
     }
 
     public Role findRoleByName(String roleName) {
-        System.out.println("Values of UserRole enum:");
-        for (UserRole role : UserRole.values()) {
-            System.out.println(role.name());
-        }
+
         UserRole userRole = UserRole.valueOf(roleName.toUpperCase().trim());
-        System.out.println("userRole = " + userRole);
         return roleRepository.findByName(userRole).orElse(null);
     }
 }

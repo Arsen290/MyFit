@@ -28,27 +28,51 @@ public class SecurityConfig  {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    @Bean
+//    @Bean
     // SecurityFilterChain is responsible for all the security filters that are defined for a particular filter chain.
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable())
+//                .authorizeHttpRequests((requests)->requests
+//                    .requestMatchers("/{name}").hasRole("USER") // Assuming you need admin role for user deletion
+//                    .requestMatchers("/{name}/**").hasRole("USER") // Assuming you need admin role for user deletion
+//                    .requestMatchers("/admin").hasRole("ADMIN")// change /user to /admin
+//                    .anyRequest().authenticated()
+//                )
+//                .formLogin((form) -> form
+//                        .loginPage("/login")// /login?
+//                        .permitAll()
+//                )
+//                .logout((logout) -> logout.permitAll())
+//                .exceptionHandling(exceptionHandling ->
+//                        exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+//                );
+//        return http.build();
+//    }
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((requests)->requests
-                    .requestMatchers("/{name}").hasRole("USER") // Assuming you need admin role for user deletion
-                    .requestMatchers("/{name}/**").hasRole("USER") // Assuming you need admin role for user deletion
-                    .requestMatchers("/admin").hasRole("ADMIN")// change /user to /admin
-                    .anyRequest().authenticated()
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+//                                .requestMatchers("/user/**").hasRole("USER") // Assuming authority-based security
+//                                .requestMatchers("/admin").hasRole("ADMIN")
+                                .anyRequest().permitAll()
+//                                .anyRequest().authenticated()
+
                 )
-                .formLogin((form) -> form
-                        .loginPage("/login")// /login?
-                        .permitAll()
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/login")
+                                .permitAll()
                 )
-                .logout((logout) -> logout.permitAll())
+                .logout(logout -> logout.permitAll())
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 );
+
         return http.build();
-    }
+        }
     // BCryptPasswordEncoder is a PasswordEncoder implementation that uses the BCrypt strong hashing function.
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
