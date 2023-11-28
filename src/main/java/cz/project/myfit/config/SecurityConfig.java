@@ -53,7 +53,7 @@ public class SecurityConfig  {
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/user/**").hasAuthority("USER") // Assuming authority-based security
+                                .requestMatchers("/").authenticated() // Assuming authority-based security
                                 .requestMatchers("/admin").hasAuthority("ADMIN") // hasRole("ADMIN") ??
                                .anyRequest().permitAll()
                 )
