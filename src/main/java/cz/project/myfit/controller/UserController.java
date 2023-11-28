@@ -89,7 +89,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("userDTO") UserDTO userDTO) {
-        userService.save(userDTO);
+        userService.createNewUser(userDTO);
         return "redirect:/login";
     }
 

@@ -98,22 +98,33 @@ public class UserService implements UserDetailsService {
 
     public void createNewUser(UserDTO userDTO) {
         try {
+            // Ищем роль 'USER' в вашем сервисе ролей
+            Role userRole = roleService.findRoleByName(UserRole.USER.name());
 
-        Role userRole = roleService.findRoleByName(UserRole.USER.toString());
+            // Проверяем, что роль была найдена
+            if (userRole == null) {
+                throw new IllegalStateException("Role 'USER' not found");
+            }
 
-        // Set the user's roles to a Set containing only the 'ROLE_USER' role
-        userDTO.setRoles(Set.of(userRole));
+            // Устанавливаем роль пользователю
+            userDTO.setRoles(Set.of(userRole));
 
-        // Create a new BCryptPasswordEncoder
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            // Создаем новый BCryptPasswordEncoder
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            // Create a new User object from the UserDTO
-        User user = new User(userDTO.getId(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
+            // Создаем новый объект User из UserDTO
+            User user = new User(
+                    userDTO.getId(),
+                    userDTO.getName(),
+                    passwordEncoder.encode(userDTO.getPassword()),
+                    userDTO.getEmail(),
+                    userDTO.getRoles()
+            );
 
-        // Save the user to the userRepository
-        userRepository.save(user);}
-        catch (DataIntegrityViolationException e) {
-            // Handle the exception (e.g., log an error or throw a custom exception)
+            // Сохраняем пользователя в userRepository
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            // Обрабатываем исключение (например, логируем ошибку или бросаем собственное исключение)
             throw new IllegalStateException("Duplicate name or email");
         }
     }

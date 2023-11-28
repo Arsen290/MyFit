@@ -38,6 +38,10 @@ public class DataInitializer implements CommandLineRunner {
             Role adminRole = new Role(UserRole.ADMIN);
             roleRepository.save(adminRole);
         }
+        if (!roleRepository.findByName(UserRole.USER).isPresent()) {
+            Role userRole = new Role(UserRole.USER);
+            roleRepository.save(userRole);
+        }
     }
     @Override
     public void run(String... args) {
