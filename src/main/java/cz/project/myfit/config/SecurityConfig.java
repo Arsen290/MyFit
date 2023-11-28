@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
@@ -22,12 +23,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig  {
 
-    private UserService userService;
+    private final UserService userService;
+    private final JWTRequestFilter JWTRequestFilter;
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 //    @Bean
     // SecurityFilterChain is responsible for all the security filters that are defined for a particular filter chain.
 //    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -58,8 +56,6 @@ public class SecurityConfig  {
                                 .requestMatchers("/user/**").hasAuthority("USER") // Assuming authority-based security
                                 .requestMatchers("/admin").hasAuthority("ADMIN") // hasRole("ADMIN") ??
                                .anyRequest().permitAll()
-//                                .anyRequest().authenticated()
-
                 )
                 .formLogin(formLogin ->
                         formLogin
@@ -69,7 +65,8 @@ public class SecurityConfig  {
                 .logout(logout -> logout.permitAll())
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                );
+                )
+                .addFilterBefore(JWTRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
         }
