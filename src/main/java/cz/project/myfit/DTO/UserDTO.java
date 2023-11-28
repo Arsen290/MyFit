@@ -64,5 +64,7 @@ public class UserDTO {
         this.password = password;
         this.roles = roles;
     }
+    public UserDTO() {
+    }
 
 }

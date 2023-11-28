@@ -31,5 +31,7 @@
 <form th:method="Delete" th:if="${user != null}" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
     <input type="submit" value="Delete User"/>
 </form>
+<!-- Logout link -->
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>
