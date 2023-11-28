@@ -1,12 +1,23 @@
 package cz.project.myfit.controller;
 
+import cz.project.myfit.DTO.JwtRequest;
 import cz.project.myfit.DTO.ProgramDTO;
 import cz.project.myfit.DTO.UserDTO;
+import cz.project.myfit.exceptions.AppError;
 import cz.project.myfit.model.Program;
 import cz.project.myfit.model.User;
 import cz.project.myfit.service.ProgramService;
 import cz.project.myfit.service.UserService;
+import cz.project.myfit.utils.JwtTokenUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,11 +39,14 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final ProgramService programService;
-
+    private final JwtTokenUtils jwtTokenUtils;
+    private final AuthenticationManager authenticationManager;
     @Autowired
-    public UserController(UserService userService, ProgramService programService) {
+    public UserController(UserService userService, ProgramService programService,JwtTokenUtils jwtTokenUtils,AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.programService = programService;
+        this.jwtTokenUtils = jwtTokenUtils;
+        this.authenticationManager = authenticationManager;
     }
     @GetMapping("")
     public String redirectToLoginOrUserPage(Authentication authentication) {
@@ -42,7 +56,7 @@ public class UserController {
         } else {
             // User is authenticated, redirect to user page
             String username = authentication.getName();
-            return "redirect:/users/" + username;
+            return "redirect:/" + username;
         }
     }
 
@@ -51,8 +65,20 @@ public class UserController {
         return "users/login";
     }
     @PostMapping("/login")
-    public String loginUser(@RequestParam String username) {
-        return "redirect:/users/" + username;
+    public String loginUser(@RequestParam String username,Model model, HttpServletRequest request,@RequestBody JwtRequest authenticationRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
+        String token = jwtTokenUtils.generateToken(userDetails);
+
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            model.addAttribute("token", token);
+
+            return "redirect:/" + username;
+        } else {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/register")
@@ -63,7 +89,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("userDTO") UserDTO userDTO) {
-        userService.createNewUser(userDTO);
+        userService.save(userDTO);
         return "redirect:/login";
     }
 
