@@ -103,8 +103,8 @@ public class UserController {
     }
     //Users card
     @GetMapping("/{name}")
-    @PreAuthorize("hasRole('ADMIN') or #name == authentication.name")
-    public String getUserByName(@PathVariable("name") String name, Model model) {
+    @PreAuthorize("hasAuthority('ADMIN') or #name == authentication.name")
+    public String getUserByName(@PathVariable("name") String name, Model model,Authentication authentication) {
         
         User user = userService.getUserByName(name);
 
@@ -131,7 +131,7 @@ public class UserController {
 
     //Delete user
     @DeleteMapping("/{name}")
-    @PreAuthorize("hasRole('ADMIN') or #name == authentication.name")
+    @PreAuthorize("hasAuthority('ADMIN') or #name == authentication.name")
     public String deleteUser(@PathVariable String name, Model model) {
         User user = userService.getUserByName(name);
         model.addAttribute("user", user);
