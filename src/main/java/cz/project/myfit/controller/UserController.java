@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -102,7 +103,9 @@ public class UserController {
     }
     //Users card
     @GetMapping("/{name}")
+    @PreAuthorize("hasRole('ADMIN') or #name == authentication.name")
     public String getUserByName(@PathVariable("name") String name, Model model) {
+        
         User user = userService.getUserByName(name);
 
         if (user != null) {
@@ -128,6 +131,7 @@ public class UserController {
 
     //Delete user
     @DeleteMapping("/{name}")
+    @PreAuthorize("hasRole('ADMIN') or #name == authentication.name")
     public String deleteUser(@PathVariable String name, Model model) {
         User user = userService.getUserByName(name);
         model.addAttribute("user", user);
