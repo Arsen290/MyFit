@@ -109,6 +109,9 @@ public class UserController {
         User user = userService.getUserByName(name);
 
         if (user != null) {
+            boolean hasUserRole = userService.hasUserRole(user);
+            System.out.println("Has a USER role:" + hasUserRole);
+            model.addAttribute("hasUserRole", hasUserRole);
             List<Program> programs = programService.getProgramsByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("programs", programs);
@@ -135,9 +138,12 @@ public class UserController {
     public String deleteUser(@PathVariable String name, Model model) {
         User user = userService.getUserByName(name);
         model.addAttribute("user", user);
-
+        boolean hasUserRole = userService.hasUserRole(user);
         userService.delete(user.getId());
+        if (hasUserRole)
+            return "redirect:/login";
+        else
+            return "redirect:/admin";
 
-        return "redirect:/users";
     }
 }

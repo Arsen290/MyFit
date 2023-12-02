@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">>
 <head>
     <meta charset="UTF-8">
     <title>User Details</title>
@@ -26,12 +27,22 @@
     <input type="text" id="programName" name="name" th:field="*{name}" required/>
     <button type="submit">Add Program</button>
 </form>
+<!-- Form to delete a user (available only to USER) -->
+<div th:if="${user != null and hasUserRole}">
+    <form th:method="DELETE" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
+        <input type="submit" value="Delete User"/>
+    </form>
+</div>
 
-<!-- Form to delete a user -->
-<form th:method="Delete" th:if="${user != null}" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
-    <input type="submit" value="Delete User"/>
-</form>
+<!-- Button to view all users (available only to ADMIN) -->
+<div th:if="${user != null and !hasUserRole}">
+    <form th:method="GET" th:action="@{/admin}">
+        <button type="submit">View Users</button>
+    </form>
+</div>
+
 <!-- Logout link -->
 <a th:href="@{/logout}">Logout</a>
+
 </body>
 </html>

@@ -158,6 +158,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public boolean hasUserRole(User user) {
+        return user.getRoles().stream().anyMatch(role -> role.getName().equals(UserRole.USER));
+    }
+
+
 //    public String getHashedPassword(String username) {
 //        Optional<User> getUserHashedPassword = userRepository.findUserByName(username);
 //        User user = getUserHashedPassword.orElseThrow(() -> new UsernameNotFoundException("User not found"));
