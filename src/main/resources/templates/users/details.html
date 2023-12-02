@@ -9,24 +9,27 @@
 <h1>User Details:</h1>
 <p th:if="${user != null}" th:text="${user.getId() + '.' + user.getName()}"></p>
 <p th:if="${user != null}" th:text="${user.getEmail()}"></p>
-<!-- List of programs -->
-<div th:if="${user != null}" th:each="program : ${programs}">
-    <a th:href="@{${user.getName()} +'/'+ ${program.getName()}}">
-        <p th:text="${program.getId() + '.' + program.getName() + ' - ' + program.getDate() }">program</p>
-    </a>
-    <!-- Form to delete a program -->
-    <form th:method="DELETE" th:action="@{'/' + ${user.getName()} + '/delete-program/' + ${program.getId()}}">
-        <input type="submit" value="Delete Program"/>
+
+<div th:if="${user != null and hasUserRole}">
+    <!-- List of programs -->
+    <div th:if="${user != null}" th:each="program : ${programs}">
+        <a th:href="@{${user.getName()} +'/'+ ${program.getName()}}">
+            <p th:text="${program.getId() + '.' + program.getName() + ' - ' + program.getDate() }">program</p>
+        </a>
+        <!-- Form to delete a program -->
+        <form th:method="DELETE" th:action="@{'/' + ${user.getName()} + '/delete-program/' + ${program.getId()}}">
+            <input type="submit" value="Delete Program"/>
+        </form>
+    </div>
+
+    <!-- Form to create a program -->
+    <form method="POST" th:action="@{'/' + ${newProgram.getUserId()} + '/add-program'}" th:object="${newProgram}">
+        <input type="hidden" th:field="*{userId}" th:value="${newProgram.getUserId()}"/>
+        <label for="programName">Program Name:</label>
+        <input type="text" id="programName" name="name" th:field="*{name}" required/>
+        <button type="submit">Add Program</button>
     </form>
 </div>
-
-<!-- Form to create a program -->
-<form method="POST" th:action="@{'/' + ${newProgram.getUserId()} + '/add-program'}" th:object="${newProgram}">
-    <input type="hidden" th:field="*{userId}" th:value="${newProgram.getUserId()}"/>
-    <label for="programName">Program Name:</label>
-    <input type="text" id="programName" name="name" th:field="*{name}" required/>
-    <button type="submit">Add Program</button>
-</form>
 <!-- Form to delete a user (available only to USER) -->
 <div th:if="${user != null and hasUserRole}">
     <form th:method="DELETE" th:action="@{/{name}(name=${user.getName()})}" th:object="${user}">
