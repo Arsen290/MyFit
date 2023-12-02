@@ -98,21 +98,21 @@ public class UserService implements UserDetailsService {
 
     public void createNewUser(UserDTO userDTO) {
         try {
-            // Ищем роль 'USER' в вашем сервисе ролей
+            // Find the role using the roleService
             Role userRole = roleService.findRoleByName(UserRole.USER.name());
 
-            // Проверяем, что роль была найдена
+            //Check if the role exists
             if (userRole == null) {
                 throw new IllegalStateException("Role 'USER' not found");
             }
 
-            // Устанавливаем роль пользователю
+            // Add the role to the userDTO
             userDTO.setRoles(Set.of(userRole));
 
-            // Создаем новый BCryptPasswordEncoder
+            // Create a new BCryptPasswordEncoder
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            // Создаем новый объект User из UserDTO
+            // Create a new User object from the UserDTO
             User user = new User(
                     userDTO.getId(),
                     userDTO.getName(),
@@ -121,10 +121,10 @@ public class UserService implements UserDetailsService {
                     userDTO.getRoles()
             );
 
-            // Сохраняем пользователя в userRepository
+            // Save the user to the userRepository
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            // Обрабатываем исключение (например, логируем ошибку или бросаем собственное исключение)
+            // Handle the exception (e.g., log an error or throw a custom exception)
             throw new IllegalStateException("Duplicate name or email");
         }
     }
@@ -166,8 +166,7 @@ public class UserService implements UserDetailsService {
 //    public String getHashedPassword(String username) {
 //        Optional<User> getUserHashedPassword = userRepository.findUserByName(username);
 //        User user = getUserHashedPassword.orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//        // Ваша логика для получения хэшированного пароля из базы данных по имени пользователя
-//        // Например, используя userRepository или другие методы доступа к данным
+//        // return the hashed password
 //        return user.getPassword();
 //    }
 
