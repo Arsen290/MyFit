@@ -1,4 +1,15 @@
-<div class="markdown prose w-full break-words dark:prose-invert light" bis_skin_checked="1"><h2>MyFit Application</h2><h3>Overview</h3><p>MyFit is an application for managing workout programs, exercises, and user information. The application is built using the Spring Boot framework with Spring Data JPA, Thymeleaf for templating, and PostgreSQL as the database.</p><h3>Configuration</h3><h4><code>application.properties</code></h4><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>properties</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-properties">spring.datasource.url=jdbc:postgresql://localhost:5432/myfit
+# MyFit Application
+
+## Overview
+
+MyFit is an application for managing workout programs, exercises, and user information. The application is built using the Spring Boot framework with Spring Data JPA, Thymeleaf for templating, and PostgreSQL as the database.
+
+## Configuration
+
+### `application.properties`
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/myfit
 spring.datasource.username=postgres
 spring.datasource.password=postgres
 spring.jpa.hibernate.ddl-auto=create-drop
@@ -10,47 +21,56 @@ spring.thymeleaf.suffix=.html
 spring.thymeleaf.cache=false
 
 spring.mvc.hiddenmethod.filter.enabled=true
-</code></div></div></pre><h3>Project Structure</h3><p>The project follows the MVC (Model-View-Controller) architecture.</p><h4>Controllers</h4><p><strong>User Controller</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Controller</span>
-<span class="hljs-meta">@RequestMapping("")</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserController</span> {
-    <span class="hljs-comment">// ... Controller methods</span>
-}
 
-</code></div></div></pre><p><strong>Program Controller</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Controller</span>
-<span class="hljs-meta">@RequestMapping("")</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProgramController</span> {
-    <span class="hljs-comment">// ... Controller methods</span>
-}
-</code></div></div></pre><p><strong>Exercise Controller</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Controller</span>
-<span class="hljs-meta">@RequestMapping("")</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExerciseController</span> {
-    <span class="hljs-comment">// ... Controller methods</span>
-}
-</code></div></div></pre><h4>Services</h4><p><strong>User Service</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> {
-    <span class="hljs-comment">// ... Service methods</span>
-}
-</code></div></div></pre><p><strong>Program Service</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProgramService</span> {
-    <span class="hljs-comment">// ... Service methods</span>
-}
-</code></div></div></pre><p><strong>Exercise Service</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExerciseService</span> {
-    <span class="hljs-comment">// ... Service methods</span>
-}
-</code></div></div></pre><h4>Models</h4><p><strong>User Model</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Entity</span>
-<span class="hljs-meta">@Table(name = "users")</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> {
-    <span class="hljs-comment">// ... User model definition</span>
-}
-</code></div></div></pre><p><strong>Program Model</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Entity</span>
-<span class="hljs-meta">@Table(name = "programs")</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Program</span> {
-    <span class="hljs-comment">// ... Program model definition</span>
-}
-</code></div></div></pre><p><strong>Exercise Model</strong></p><pre><div class="bg-black rounded-md" bis_skin_checked="1"><div class="flex items-center relative text-gray-200 bg-gray-800 gizmo:dark:bg-token-surface-primary px-4 py-2 text-xs font-sans justify-between rounded-t-md" bis_skin_checked="1"><span>java</span><button class="flex ml-auto gizmo:ml-0 gap-1 items-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-sm"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C10.8954 4 10 4.89543 10 6H14C14 4.89543 13.1046 4 12 4ZM8.53513 4C9.22675 2.8044 10.5194 2 12 2C13.4806 2 14.7733 2.8044 15.4649 4H17C18.6569 4 20 5.34315 20 7V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V7C4 5.34315 5.34315 4 7 4H8.53513ZM8 6H7C6.44772 6 6 6.44772 6 7V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7C18 6.44772 17.5523 6 17 6H16C16 7.10457 15.1046 8 14 8H10C8.89543 8 8 7.10457 8 6Z" fill="currentColor"></path></svg>Copy code</button></div><div class="p-4 overflow-y-auto" bis_skin_checked="1"><code class="!whitespace-pre hljs language-java"><span class="hljs-meta">@Entity</span>
-<span class="hljs-meta">@Table(name = "exercises")</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Exercise</span> {
-    <span class="hljs-comment">// ... Exercise model definition</span>
-}
-</code></div></div></pre><h3>Project Status</h3><p>The project is currently in progress, with the following milestones:</p><ul><li><strong>Done:</strong> Boot Spring application using MVC architecture, Thymeleaf is used to display information. Using DTO pattern.</li><li><strong>In Progress:</strong> Make Access Tokens, also add API architecture to communicate with the application. Writing tests and exception handling. Wrap in container(docker) and customize the deploy.</li><li><strong>Future:</strong> Follow up on Kotlin and make an Android app.</li></ul><h3>Getting Started</h3><ol><li>Clone the repository.</li><li>Configure the PostgreSQL database in <code>application.properties</code>.</li><li>Build and run the Spring Boot application.</li></ol><h3>Contributing</h3><p>Contributions are welcome! Feel free to open issues or pull requests.</p><h3>License</h3><p>This project is licensed under the MIT License - see the <a href="LICENSE" target="_new">LICENSE</a> file for details.</p></div>
+logging.level.org.hibernate.SQL=debug
+
+# JWT Secret
+jwt.secret=9A8E15241DDD69BC4EDAD3BEFF89B
+
+# JWT Token Lifetime
+jwt.lifeTime=PT1H
+
+##Admin user
+admin.user.name=AdminUser
+admin.user.email=admin@example.com
+admin.user.password=adminPassword
+admin.user.roles=ADMIN
+
+spring.thymeleaf.security-authorization-enabled=true
+
+##Project Structure
+The project adheres to the MVC (Model-View-Controller) architecture.
+
+##Project Status
+The project is currently in progress, with the following milestones:
+
+Done: Boot Spring application using MVC architecture, Thymeleaf is used to display information. Using DTO pattern. Make Access Tokens, JWT requst filter and security configuration.
+In Progress:  Work with errors. Catch exceptions. Create unit tests. Wrap in container(docker) and customize the deploy.
+Future: Add API architecture to communicate with the application. Follow up on Kotlin and make an Android app.
+
+##Getting Started
+Clone the Repository:
+
+Open a terminal or command prompt.
+Run the following command to clone the repository:
+bash
+Copy code
+git clone <repository-url>
+Replace <repository-url> with the actual URL of the MyFit repository.
+Configure PostgreSQL Database:
+
+
+Ensure you have Java and Maven installed on your machine.
+Navigate to the root directory of the cloned repository in the terminal.
+Run the following command to build the application:
+bash
+mvn clean install
+
+Once the build is successful, run the following command to start the Spring Boot application:
+bash
+java -jar target/myfit-<version>.jar
+Replace <version> with the actual version of the application.
+Access the Application:
+
+Open a web browser.
+Navigate to http://localhost:8080 (or the configured port) to access the MyFit application.
