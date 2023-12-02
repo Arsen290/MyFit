@@ -10,5 +10,7 @@
   <a th:href="@{/{name}(name=${user.getName()})}"
      th:text="${user.getId() + '.' + user.getName()}">user</a>
 </div>
+<!-- Logout link -->
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>
