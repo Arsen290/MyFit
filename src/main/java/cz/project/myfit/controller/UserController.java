@@ -42,13 +42,15 @@ public class UserController {
     private final ProgramService programService;
     private final JwtTokenUtils jwtTokenUtils;
     private final AuthenticationManager authenticationManager;
+
     @Autowired
-    public UserController(UserService userService, ProgramService programService,JwtTokenUtils jwtTokenUtils,AuthenticationManager authenticationManager) {
+    public UserController(UserService userService, ProgramService programService, JwtTokenUtils jwtTokenUtils, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.programService = programService;
         this.jwtTokenUtils = jwtTokenUtils;
         this.authenticationManager = authenticationManager;
     }
+
     @GetMapping("")
     public String redirectToLoginOrUserPage(Authentication authentication) {
         if (authentication == null || authentication.getPrincipal() == null) {
@@ -65,8 +67,9 @@ public class UserController {
     public String getLoginForm() {
         return "users/login";
     }
+
     @PostMapping("/login")
-    public String loginUser(@RequestParam String username,Model model, HttpServletRequest request,@RequestBody JwtRequest authenticationRequest) {
+    public String loginUser(@RequestParam String username, Model model, HttpServletRequest request, @RequestBody JwtRequest authenticationRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
@@ -101,11 +104,12 @@ public class UserController {
         model.addAttribute("users", users);
         return "users/index";
     }
+
     //Users card
     @GetMapping("/{name}")
     @PreAuthorize("hasAuthority('ADMIN') or #name == authentication.name")
-    public String getUserByName(@PathVariable("name") String name, Model model,Authentication authentication) {
-        
+    public String getUserByName(@PathVariable("name") String name, Model model, Authentication authentication) {
+
         User user = userService.getUserByName(name);
 
         if (user != null) {
@@ -125,12 +129,6 @@ public class UserController {
             return "redirect:/users";
         }
     }
-    //Change implementation with register and login form with token
-//    @ResponseBody
-//    @PostMapping("/post")
-//    public void addUser(@RequestBody UserDTO userDTO) {
-//        userService.save(userDTO);
-//    }
 
     //Delete user
     @DeleteMapping("/{name}")

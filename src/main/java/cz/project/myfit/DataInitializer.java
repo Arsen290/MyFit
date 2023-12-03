@@ -33,6 +33,7 @@ public class DataInitializer implements CommandLineRunner {
         this.roleService = roleService;
         this.roleRepository = roleRepository;
     }
+
     private void initializeRoles() {
         if (!roleRepository.findByName(UserRole.ADMIN).isPresent()) {
             Role adminRole = new Role(UserRole.ADMIN);
@@ -43,6 +44,7 @@ public class DataInitializer implements CommandLineRunner {
             roleRepository.save(userRole);
         }
     }
+
     @Override
     public void run(String... args) {
         // Initialize roles

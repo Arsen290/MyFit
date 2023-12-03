@@ -23,7 +23,7 @@
     </div>
 
     <!-- Form to create a program -->
-    <form method="POST" th:action="@{'/' + ${newProgram.getUserId()} + '/add-program'}" th:object="${newProgram}">
+    <form method="POST" th:action="@{'/' + ${user.getName()} + '/' + ${newProgram.getUserId()} + '/add-program'}" th:object="${newProgram}">
         <input type="hidden" th:field="*{userId}" th:value="${newProgram.getUserId()}"/>
         <label for="programName">Program Name:</label>
         <input type="text" id="programName" name="name" th:field="*{name}" required/>

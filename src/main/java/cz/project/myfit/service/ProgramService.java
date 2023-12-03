@@ -33,9 +33,11 @@ public class ProgramService {
             Program program = new Program(programDTO.getName(), user, LocalDate.now());
             programRepository.save(program);
             return program;
+        } else {
+            return null;
         }
-        else {return null;}
     }
+
     // Delete a program
     public void deleteProgram(Long programId) {
         programRepository.deleteById(programId);

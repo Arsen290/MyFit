@@ -24,39 +24,18 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class SecurityConfig  {
+public class SecurityConfig {
 
     private final UserService userService;
     private final JWTRequestFilter JWTRequestFilter;
 
-//    @Bean
-    // SecurityFilterChain is responsible for all the security filters that are defined for a particular filter chain.
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests((requests)->requests
-//                    .requestMatchers("/{name}").hasRole("USER") // Assuming you need admin role for user deletion
-//                    .requestMatchers("/{name}/**").hasRole("USER") // Assuming you need admin role for user deletion
-//                    .requestMatchers("/admin").hasRole("ADMIN")// change /user to /admin
-//                    .anyRequest().authenticated()
-//                )
-//                .formLogin((form) -> form
-//                        .loginPage("/login")// /login?
-//                        .permitAll()
-//                )
-//                .logout((logout) -> logout.permitAll())
-//                .exceptionHandling(exceptionHandling ->
-//                        exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//                );
-//        return http.build();
-//    }
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/", "/login","/register").permitAll() // Assuming authority-based security
+                                .requestMatchers("/", "/login", "/register").permitAll() // Assuming authority-based security
                                 .requestMatchers("/admin").hasAuthority("ADMIN") // hasRole("ADMIN") ??
                                 .anyRequest().authenticated()
                 )
@@ -78,7 +57,8 @@ public class SecurityConfig  {
                 .addFilterBefore(JWTRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-        }
+    }
+
     // BCryptPasswordEncoder is a PasswordEncoder implementation that uses the BCrypt strong hashing function.
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -96,7 +76,7 @@ public class SecurityConfig  {
 
     @Bean
     // AuthenticationManager is the Spring Security interface responsible for authenticating a user.
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

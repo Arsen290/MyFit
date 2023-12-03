@@ -20,8 +20,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -45,18 +47,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email).orElse(null);
-    }
-
-    public User getUserByName(String name){
+    public User getUserByName(String name) {
         return userRepository.findUserByName(name).orElse(null);
     }
 
     public void save(UserDTO userDTO) {
         try {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            User user = new User(userDTO.getId(), userDTO.getName(),passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
+            User user = new User(userDTO.getId(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()), userDTO.getEmail(), userDTO.getRoles());
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             // Handle the exception (e.g., log an error or throw a custom exception)
@@ -162,12 +160,5 @@ public class UserService implements UserDetailsService {
         return user.getRoles().stream().anyMatch(role -> role.getName().equals(UserRole.USER));
     }
 
-
-//    public String getHashedPassword(String username) {
-//        Optional<User> getUserHashedPassword = userRepository.findUserByName(username);
-//        User user = getUserHashedPassword.orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//        // return the hashed password
-//        return user.getPassword();
-//    }
 
 }

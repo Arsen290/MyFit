@@ -5,6 +5,7 @@ import cz.project.myfit.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cz.project.myfit.enums.UserRole;
+
 @Service
 public class RoleService {
 

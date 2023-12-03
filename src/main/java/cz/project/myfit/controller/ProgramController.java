@@ -7,6 +7,7 @@ import cz.project.myfit.service.ProgramService;
 import cz.project.myfit.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,8 +33,10 @@ public class ProgramController {
         this.programService = programService;
     }
 
-    @PostMapping("/{id}/add-program")
+    @PostMapping("/{userName}/{id}/add-program")
+    @PreAuthorize("hasAuthority('ADMIN') or #userName == authentication.name")
     public String addProgramToUser(
+            @PathVariable String userName,
             @PathVariable Long id,
             @Valid @ModelAttribute("newProgram") ProgramDTO programDTO,
             BindingResult result
@@ -46,6 +49,7 @@ public class ProgramController {
     }
 
     @DeleteMapping("/{userName}/delete-program/{programId}")
+    @PreAuthorize("hasAuthority('ADMIN') or #userName == authentication.name")
     public String deleteProgram(
             @PathVariable String userName,
             @PathVariable Long programId

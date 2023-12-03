@@ -26,7 +26,7 @@ public class JwtTokenUtils {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        List<String>rolesList = userDetails.getAuthorities().stream()
+        List<String> rolesList = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         claims.put("roles", rolesList);

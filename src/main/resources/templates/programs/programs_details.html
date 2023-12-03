@@ -18,7 +18,8 @@
                 <div>
                     <span th:text="${exercise.name}"></span>
                     <span th:text="${'- sets: ' + exercise.sets  + ', repetitions: ' +exercise.repetitions +  ', weight: ' + exercise.weight}"></span>
-                    <form th:method="DELETE" th:action="@{'/' + ${userName} + '/' + ${programName} + '/delete-exercise/' + ${exercise.id}}" >
+                    <form th:method="DELETE"
+                          th:action="@{'/' + ${userName} + '/' + ${programName} + '/delete-exercise/' + ${exercise.id}}">
                         <button type="submit">Delete Exercise</button>
                     </form>
                 </div>
@@ -30,7 +31,8 @@
 <button onclick="showForm()">Add Exercise</button>
 
 <!-- Form to add exercise -->
-<form id="exerciseForm" style="display: none;" th:action="@{'/' + ${userName} + '/' + ${programName} + '/add-exercise'}" method="post" th:object="${newExercise}">
+<form id="exerciseForm" style="display: none;" th:action="@{'/' + ${userName} + '/' + ${programName} + '/add-exercise'}"
+      method="post" th:object="${newExercise}">
     <label for="exerciseName">Exercise Name:</label>
     <input type="text" id="exerciseName" name="name" th:field="*{name}" required/>
     <label for="sets">Sets:</label>

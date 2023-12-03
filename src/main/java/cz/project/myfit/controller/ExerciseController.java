@@ -5,6 +5,7 @@ import cz.project.myfit.model.Program;
 import cz.project.myfit.service.ExerciseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ExerciseController {
 
     private final ExerciseService exerciseService;
+
     @Autowired
     public ExerciseController(ExerciseService exerciseService) {
         this.exerciseService = exerciseService;
     }
 
     @GetMapping("/{userName}/{programName}")
+    @PreAuthorize("hasAuthority('ADMIN') or #userName == authentication.name")
     public String showProgramWithExercises(
             @PathVariable String userName,
             @PathVariable String programName,
@@ -42,6 +45,7 @@ public class ExerciseController {
     }
 
     @PostMapping("/{userName}/{programName}/add-exercise")
+    @PreAuthorize("hasAuthority('ADMIN') or #userName == authentication.name")
     public String addExerciseToProgram(
             @PathVariable String userName,
             @PathVariable String programName,
@@ -55,6 +59,7 @@ public class ExerciseController {
         exerciseService.addExerciseToProgram(userName, programName, exerciseDTO);
         return "redirect:/{userName}/{programName}";
     }
+
     @DeleteMapping("/{userName}/{programName}/delete-exercise/{exerciseId}")
     public String deleteExercise(
             @PathVariable String userName,

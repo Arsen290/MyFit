@@ -18,7 +18,7 @@ public class ExerciseService {
     private final ProgramRepository programRepository;
 
     @Autowired
-    public ExerciseService(ExerciseRepository exerciseRepository,   ProgramRepository programRepository) {
+    public ExerciseService(ExerciseRepository exerciseRepository, ProgramRepository programRepository) {
         this.exerciseRepository = exerciseRepository;
         this.programRepository = programRepository;
     }
@@ -35,6 +35,7 @@ public class ExerciseService {
     public void deleteExercise(Long id) {
         exerciseRepository.deleteById(id);
     }
+
     public Program getProgramByNameAndUser(String userName, String programName) {
         return programRepository.findByUser_NameAndName(userName, programName);
     }
