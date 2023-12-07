@@ -3,7 +3,6 @@ package cz.project.myfit.controller;
 import cz.project.myfit.DTO.JwtRequest;
 import cz.project.myfit.DTO.ProgramDTO;
 import cz.project.myfit.DTO.UserDTO;
-import cz.project.myfit.exceptions.AppError;
 import cz.project.myfit.model.Program;
 import cz.project.myfit.model.User;
 import cz.project.myfit.service.ProgramService;
